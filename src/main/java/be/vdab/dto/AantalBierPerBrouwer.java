@@ -1,4 +1,4 @@
 package be.vdab.dto;
 
-public record AantalBierPerBrouwer(String naam, String aantal) {
+public record AantalBierPerBrouwer(String naam, int aantal) {
 }

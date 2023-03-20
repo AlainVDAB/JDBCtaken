@@ -71,9 +71,8 @@ public class BierRepository extends AbstractRepository {
             return namen;
         }
     }
-/*
-    public List<AantalBierPerBrouwer> bierenPerBrouwer() throws SQLException {
-        var brouwers = new ArrayList<String>();
+public List<AantalBierPerBrouwer> bierenPerBrouwer() throws SQLException {
+        var brouwers = new ArrayList<AantalBierPerBrouwer>();
         var sql = """
                 select brouwers.naam as naamBrouwer, count(bieren.id) as aantalBieren from bieren
                 inner join brouwers on bieren.brouwerId = brouwers.id
@@ -82,14 +81,14 @@ public class BierRepository extends AbstractRepository {
                                 """;
         try (var connection = super.getConnection();
              var statement = connection.prepareStatement(sql)) {
-            //connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            //connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            connection.setAutoCommit(false);
             //statement.setInt(1, maand);
             for (var result = statement.executeQuery(); result.next(); ) {
-                brouwers.add(result.getObject(new AantalBierPerBrouwer("naamBrouwer","aantalBieren")));
+                brouwers.add(new AantalBierPerBrouwer(result.getString("naamBrouwer"),result.getInt("aantalbieren")));
             }
             //connection.commit();
             return brouwers;
         }
-    }*/
+    }
 }
